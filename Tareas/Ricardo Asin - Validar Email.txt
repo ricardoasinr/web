@@ -1,0 +1,78 @@
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const inputEmail = document.querySelector('#email');
+    const inputAsunto = document.querySelector('#asunto');
+    const inputMessage = document.querySelector('#mensaje');
+    const formulario = document.querySelector('#formulario');
+    const labelTextError = document.querySelector('#error')
+
+    const regexEmail = /^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+
+    inputEmail.addEventListener('blur', validar)
+    inputAsunto.addEventListener('blur', validar)
+    inputMessage.addEventListener('blur', validar)
+
+
+
+     function validar (e) {
+  
+         if(e.target.value === ''){
+             
+             mostrarAlerta(`El campo ${e.target.id} es obligatorio`, e.target.parentElement)
+             
+         }
+         else {
+             
+             limpiarAlerta(e.target.parentElement)
+             console.log(e.target.value)
+             if(e.target.id === 'email'){
+                 validarEmail(e.target.value, e.target.parentElement)
+             }
+
+         }
+
+    }
+
+    function mostrarAlerta (mensaje, referencia) {
+      
+        limpiarAlerta(referencia)
+        const error = document.createElement('P')
+        error.textContent = mensaje
+        error.classList.add('bg-red-600', 'text-white', 'p-1', 'text-center')
+     
+        referencia.appendChild(error)
+        
+
+
+
+
+    }
+
+    function limpiarAlerta(referencia){
+        const alerta = referencia.querySelector('.bg-red-600')
+
+        if(alerta){
+            alerta.remove()
+        }
+    }
+
+    function validarEmail (email, referencia) {
+        if(regexEmail.test(email)===true)
+        {
+            limpiarAlerta(referencia)
+            console.log(`Email válido: ${regexEmail.test(email)}`)
+        }
+        else{
+            console.log(`Email válido: ${regexEmail.test(email)}`)
+            limpiarAlerta(referencia)
+            mostrarAlerta(`Ingrese un correo válido`, referencia)
+        }
+
+    }
+
+
+
+
+
+})
